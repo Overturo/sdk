@@ -3,7 +3,7 @@ import { evidenceDigest } from "../../src/oversight/evidence-digest.js"
 import { canonicalize } from "../../src/canonicalize.js"
 
 describe("evidenceDigest", () => {
-  it("returns 64 hex chars (matches OV-1's regex /\\A[a-f0-9]{64}\\z/)", async () => {
+  it("returns 64 hex chars (matches the server's regex /\\A[a-f0-9]{64}\\z/)", async () => {
     const digest = await evidenceDigest({ a: 1 }, { b: 2 })
     expect(digest).toMatch(/^[a-f0-9]{64}$/)
   })

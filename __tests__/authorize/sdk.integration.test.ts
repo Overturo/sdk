@@ -37,7 +37,7 @@ beforeAll(async () => {
 function skipIfNoServer(): void {
   if (fixture === null) {
     // eslint-disable-next-line no-console
-    console.warn("[oap integration] skipping — no Rails server at BASE_URL. Run `bin/dev` and re-run.")
+    console.warn("[oap integration] skipping — no Overturo server at BASE_URL. Run `bin/dev` and re-run.")
   }
 }
 

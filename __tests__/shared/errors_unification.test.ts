@@ -25,7 +25,7 @@ import {
   isOapError,
 } from "../../src/errors.js"
 
-describe("error-tree unification (TS-12 Phase D parity with Python)", () => {
+describe("error-tree unification (parity with Python)", () => {
   it("OapError is rooted under OverturoError", () => {
     const e = new OapError({ reason_code: "internal_error" as never, message: "x" })
     expect(e).toBeInstanceOf(OverturoError)

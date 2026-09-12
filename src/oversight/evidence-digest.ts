@@ -8,7 +8,7 @@
  *   4. SHA-256 over the UTF-8 bytes
  *   5. Return hex
  *
- * Matches OV-1's `evidence_digest` model validator
+ * Matches the server's `evidence_digest` validator
  * (`/\A[a-f0-9]{64}\z/` at app/models/oap/attestation.rb).
  */
 import { canonicalize } from "../canonicalize.js"

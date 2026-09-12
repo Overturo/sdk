@@ -2,7 +2,7 @@
  * Test helper: load the OAP journey scenario from the running Rails
  * server and reconstruct the typed contract the SDK suite consumes.
  *
- * Requires a Rails server reachable at $BASE_URL (default
+ * Requires an Overturo server reachable at $BASE_URL (default
  * http://localhost:5000) with the OAP feature flag enabled. Tests that
  * use this helper auto-skip when the server is unreachable, so the
  * harness is safe to run in environments where Rails isn't up (e.g.

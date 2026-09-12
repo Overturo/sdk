@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.3.1] - 2026-09-12
 
 ### Added
 
@@ -8,6 +8,7 @@
 
 ### Changed
 
+- The README links the public documentation and the rendered API reference at overturo.com/developers; the vendored API response corpus is re-recorded against the published document, whose operations now list the SDKs that reach them (`x-overturo-sdks`).
 - Source comments, tests, the example adapter and this changelog describe behaviour only; planning references were removed.
 - The test suite is self-contained: the authorization decision fixtures and the signed-record corpus are vendored under `__tests__/fixtures/` (the shared copies are read when the package sits next to them).
 - Repository, homepage, and issue-tracker metadata point at the public source mirror under https://github.com/overturo; a LICENSE file now ships with the package.
