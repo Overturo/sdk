@@ -1,0 +1,9 @@
+{
+  "decision": "allow",
+  "mode": "oversight",
+  "request_id": "req_oversight_003",
+  "overturo_decision_schema_version": "1.0.0",
+  "decision_latency_ms": 8.0,
+  "chronicle_id": "chr_ghi",
+  "block_invocations": []
+}

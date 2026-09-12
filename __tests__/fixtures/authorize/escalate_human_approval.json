@@ -1,0 +1,26 @@
+{
+  "decision": "escalate",
+  "mode": "conductor",
+  "request_id": "req_esc_009",
+  "overturo_decision_schema_version": "1.0.0",
+  "decision_latency_ms": 18.5,
+  "chronicle_id": "chr_esc_b",
+  "cascade_step": 15,
+  "escalation": {
+    "escalation_id": "esc_ha",
+    "required_signers": [
+      "compliance_lead"
+    ],
+    "approval_ttl_at": "2026-12-31T00:00:00Z"
+  },
+  "block_invocations": [
+    {
+      "position": 15,
+      "block_slug": "conductor.human_approval",
+      "decision": "escalate",
+      "latency_ms": 6.2,
+      "evaluator_class": "MyCorp::RiskAdapter",
+      "policy_engine": "risk_engine_v2"
+    }
+  ]
+}

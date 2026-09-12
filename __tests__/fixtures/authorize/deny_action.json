@@ -1,0 +1,21 @@
+{
+  "decision": "deny",
+  "mode": "conductor",
+  "request_id": "req_deny_005",
+  "overturo_decision_schema_version": "1.0.0",
+  "reason_code": "action_not_allowed",
+  "denial_category": "intent_denied",
+  "cascade_step": 7,
+  "failed_bound": "action_bounds",
+  "block_invocations": [
+    {
+      "position": 7,
+      "block_slug": "conductor.policy_gate",
+      "decision": "deny",
+      "latency_ms": 1.0,
+      "evaluator_class": "BuiltinEvaluator",
+      "reason_code": "action_not_allowed",
+      "failed_bound": "action_bounds"
+    }
+  ]
+}

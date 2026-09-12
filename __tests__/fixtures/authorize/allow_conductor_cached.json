@@ -1,0 +1,28 @@
+{
+  "decision": "allow",
+  "mode": "conductor",
+  "request_id": "req_cached_002",
+  "overturo_decision_schema_version": "1.0.0",
+  "decision_latency_ms": 4.1,
+  "chronicle_id": "chr_def",
+  "block_invocations": [
+    {
+      "position": 7,
+      "block_slug": "conductor.policy_gate",
+      "decision": "pass",
+      "latency_ms": 0.05,
+      "evaluator_class": "BuiltinEvaluator",
+      "policy_engine": "builtin",
+      "cache_outcome": "hit"
+    },
+    {
+      "position": 10,
+      "block_slug": "conductor.budget_governor",
+      "decision": "pass",
+      "latency_ms": 0.04,
+      "evaluator_class": "BuiltinEvaluator",
+      "policy_engine": "builtin",
+      "cache_outcome": "hit"
+    }
+  ]
+}

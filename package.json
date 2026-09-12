@@ -1,0 +1,77 @@
+{
+  "name": "@overturo/sdk",
+  "version": "1.3.0",
+  "description": "Overturo SDK — authorize, oversight, and decisions for backend integrators",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./authorize": {
+      "types": "./dist/authorize.d.ts",
+      "import": "./dist/authorize.mjs",
+      "require": "./dist/authorize.cjs"
+    },
+    "./oversight": {
+      "types": "./dist/oversight.d.ts",
+      "import": "./dist/oversight.mjs",
+      "require": "./dist/oversight.cjs"
+    },
+    "./decisions": {
+      "types": "./dist/decisions.d.ts",
+      "import": "./dist/decisions.mjs",
+      "require": "./dist/decisions.cjs"
+    },
+    "./receipts": {
+      "types": "./dist/receipts.d.ts",
+      "import": "./dist/receipts.mjs",
+      "require": "./dist/receipts.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^4.0.18"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "overturo",
+    "oap",
+    "agent-authorization",
+    "oversight",
+    "attestation",
+    "decisions"
+  ],
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/overturo/sdk.git"
+  },
+  "homepage": "https://github.com/overturo/sdk#readme",
+  "bugs": {
+    "url": "https://github.com/overturo/sdk/issues"
+  },
+  "overrides": {
+    "esbuild": "^0.28.1"
+  }
+}

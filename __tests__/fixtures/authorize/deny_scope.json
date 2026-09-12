@@ -1,0 +1,28 @@
+{
+  "decision": "deny",
+  "mode": "conductor",
+  "request_id": "req_deny_006",
+  "overturo_decision_schema_version": "1.0.0",
+  "reason_code": "scope_not_covered",
+  "denial_category": "intent_denied",
+  "cascade_step": 8,
+  "failed_bound": "scope_bounds",
+  "block_invocations": [
+    {
+      "position": 7,
+      "block_slug": "conductor.policy_gate",
+      "decision": "pass",
+      "latency_ms": 1.0,
+      "evaluator_class": "BuiltinEvaluator"
+    },
+    {
+      "position": 8,
+      "block_slug": "conductor.policy_gate",
+      "decision": "deny",
+      "latency_ms": 1.1,
+      "evaluator_class": "BuiltinEvaluator",
+      "reason_code": "scope_not_covered",
+      "failed_bound": "scope_bounds"
+    }
+  ]
+}

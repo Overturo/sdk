@@ -1,0 +1,17 @@
+{
+  "decision": "allow",
+  "mode": "hybrid",
+  "request_id": "req_hint_011",
+  "overturo_decision_schema_version": "1.0.0",
+  "decision_latency_ms": 6.0,
+  "chronicle_id": "chr_hint",
+  "block_invocations": [
+    {
+      "position": 7,
+      "block_slug": "conductor.policy_gate",
+      "decision": "pass",
+      "latency_ms": 1.0,
+      "evaluator_class": "BuiltinEvaluator"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "$comment": "OPA-style policy fixture. Each rule has effect (allow|deny), an optional input matcher, and an optional context predicate. The in-memory evaluator iterates rules in order; first matching rule wins. Production: replace with @open-policy-agent/opa-wasm reading a compiled .rego bundle.",
+  "rules": [
+    {
+      "name": "read_profile_allowed",
+      "effect": "allow",
+      "input": {"action": "read", "scope_in": ["openid", "profile", "email"]},
+      "context": null
+    },
+    {
+      "name": "high_value_write_denied",
+      "effect": "deny",
+      "input": {"action": "write"},
+      "context": {"value_gt": 1000}
+    },
+    {
+      "name": "write_default_allowed",
+      "effect": "allow",
+      "input": {"action": "write"},
+      "context": null
+    }
+  ]
+}

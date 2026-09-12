@@ -1,0 +1,8 @@
+{
+  "decision": "allow",
+  "mode": "conductor",
+  "request_id": "req_no_decomp_012",
+  "overturo_decision_schema_version": "1.0.0",
+  "chronicle_id": "chr_no_decomp",
+  "block_invocations": []
+}

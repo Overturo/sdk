@@ -1,0 +1,14 @@
+{
+  "decision": "allow",
+  "mode": "conductor",
+  "request_id": "req_uncached_001",
+  "overturo_decision_schema_version": "1.0.0",
+  "decision_latency_ms": 12.45,
+  "chronicle_id": "chr_abc",
+  "block_invocations": [
+    {"position": 7, "block_slug": "conductor.policy_gate", "decision": "pass", "latency_ms": 1.2, "evaluator_class": "BuildingBlocks::Conductor::PolicyGate::BuiltinEvaluator", "policy_engine": "builtin"},
+    {"position": 8, "block_slug": "conductor.policy_gate", "decision": "pass", "latency_ms": 1.1, "evaluator_class": "BuildingBlocks::Conductor::PolicyGate::BuiltinEvaluator", "policy_engine": "builtin"},
+    {"position": 9, "block_slug": "conductor.policy_gate", "decision": "pass", "latency_ms": 1.3, "evaluator_class": "BuildingBlocks::Conductor::PolicyGate::BuiltinEvaluator", "policy_engine": "builtin"},
+    {"position": 10, "block_slug": "conductor.budget_governor", "decision": "pass", "latency_ms": 2.5, "evaluator_class": "BuildingBlocks::Conductor::BudgetGovernor::BuiltinEvaluator", "policy_engine": "builtin"}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "decision": "deny",
+  "mode": "conductor",
+  "request_id": "req_deny_007",
+  "overturo_decision_schema_version": "1.0.0",
+  "reason_code": "value_exceeds_tx_max",
+  "denial_category": "trajectory_denied",
+  "cascade_step": 10,
+  "failed_bound": "value_bounds",
+  "block_invocations": [
+    {
+      "position": 7,
+      "block_slug": "conductor.policy_gate",
+      "decision": "pass",
+      "latency_ms": 1.0,
+      "evaluator_class": "BuiltinEvaluator"
+    },
+    {
+      "position": 10,
+      "block_slug": "conductor.budget_governor",
+      "decision": "deny",
+      "latency_ms": 2.0,
+      "evaluator_class": "BuiltinEvaluator",
+      "reason_code": "value_exceeds_tx_max",
+      "failed_bound": "value_bounds"
+    }
+  ]
+}
