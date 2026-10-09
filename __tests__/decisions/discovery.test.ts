@@ -50,7 +50,7 @@ describe("discoverFlowDisclosures", () => {
     expect(result.expiry.consent_duration_days).toBe
     const purpose = result.purposes.find((p) => p.name === "care_reminders")
     expect(purpose?.mechanism).toBe("opt_out")
-    expect(purpose?.legal_basis).toBe("consent")
+    expect(purpose?.legal_basis).toBe("legitimate_interest")
     expect(result.fields.map((f) => f.completed_by)).toContain("principal")
     expect(result.outcomes).toEqual(["granted", "denied"])
   })
