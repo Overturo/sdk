@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.2] - 2026-10-09
+### Changed
+- Vendored signed-record corpus refreshed to the shared corpus 1.0.2: a new `consent_record_escaped_text` case (receipt text containing `<`, `>`, `&` and U+2028), regenerated record identifiers and the `overturo-cr/2.9` schema label; published keys unchanged. Tests only — the published package is unchanged.
+
 ## [1.3.1] - 2026-09-12
 
 ### Added
