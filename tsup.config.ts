@@ -7,6 +7,7 @@ export default defineConfig({
     oversight: "src/oversight/index.ts",
     decisions: "src/decisions/index.ts",
     receipts: "src/receipts/index.ts",
+    meetings: "src/meetings/index.ts",
   },
   format: ["esm", "cjs"],
   dts: true,

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.4.0] - 2026-10-10
+### Added
+- `@overturo/sdk/meetings` — `OverturoMeetings` (API token): `listMeetings`, `createMeeting`, `getMeeting`, `updateMeeting` (rename / reschedule), `cancelMeeting`, `listParticipants` (each person's decision per purpose). A meeting is the unit of record: window, platform identity, cancellation, participant rows. Tests run against the recorded corpus.
+
 ## [1.3.3] - 2026-10-09
 ### Changed
 - Vendored discovery corpus refreshed to the shared corpus 1.0.3: the canonical flow's `care_reminders` purpose now runs on legitimate interest with the opt-out (right to object) mechanism, and its choices step is titled "Your Choices"; the discovery test follows. Tests only — the published package is unchanged.

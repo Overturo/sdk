@@ -1,6 +1,6 @@
 {
   "name": "@overturo/sdk",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "Overturo SDK — authorize, oversight, and decisions for backend integrators",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -31,6 +31,11 @@
       "types": "./dist/receipts.d.ts",
       "import": "./dist/receipts.mjs",
       "require": "./dist/receipts.cjs"
+    },
+    "./meetings": {
+      "types": "./dist/meetings.d.ts",
+      "import": "./dist/meetings.mjs",
+      "require": "./dist/meetings.cjs"
     }
   },
   "files": [

@@ -81,6 +81,22 @@ export type {
   DiscoverFlowOptions,
 } from "./decisions/index.js"
 
+// Meetings subpackage — the organisation's side of meeting consent (200)
+export { OverturoMeetings } from "./meetings/index.js"
+export type {
+  MeetingConsent,
+  MeetingConsentEnvelope,
+  MeetingConsentList,
+  MeetingParticipant,
+  MeetingParticipantCounts,
+  MeetingParticipantDecision,
+  MeetingParticipantList,
+  CreateMeetingInput,
+  UpdateMeetingInput,
+  ListMeetingsOptions,
+  OverturoMeetingsOpts,
+} from "./meetings/index.js"
+
 // Receipts — authority record client methods
 export { OverturoReceipts } from "./receipts/index.js"
 export type {
