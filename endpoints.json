@@ -17,6 +17,13 @@
     { "method": "PATCH", "path": "/api/v1/applications/{application_id}/meeting_consents/{id}" },
     { "method": "DELETE", "path": "/api/v1/applications/{application_id}/meeting_consents/{id}" },
     { "method": "GET", "path": "/api/v1/applications/{application_id}/meeting_consents/{id}/participants" },
-    { "method": "GET", "path": "/.well-known/openid-configuration", "contract": false }
+    { "method": "GET", "path": "/.well-known/openid-configuration", "contract": false
+    },
+    { "method": "POST", "path": "/api/v1/decisions/{id}/authorize" },
+    { "method": "POST", "path": "/api/v1/consent_records" },
+    { "method": "GET", "path": "/api/v1/consent_records/{id}" },
+    { "method": "POST", "path": "/api/v1/consent_records/imports" },
+    { "method": "GET", "path": "/api/v1/consent_records/imports/{import_id}" },
+    { "method": "GET", "path": "/api/v1/applications/{application_id}/consent_status" }
   ]
 }

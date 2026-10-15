@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.0] - 2026-10-15
+### Added
+- `@overturo/sdk/consent_records` — `OverturoConsentRecords` (API token): `create` (capture and commit in one call, idempotent on your key), `commitCapture` (commit the capture token your own form received), `retrieve`, `import` (consents you already hold, up to 5000 rows per batch, with a dry run), `retrieveImport` and `status` (the per-purpose status for a subject, by email or your own identifier). Tests run against the recorded corpus.
+### Changed
+- Vendored corpus refreshed to the shared corpus 1.0.5 (the decision-authorize and consent-record recordings join; identifiers re-recorded) and the signed-record fixtures regenerated against schema `overturo-cr/2.12`; published keys unchanged. Dev dependency: vitest 4.1.11.
+
 ## [1.4.0] - 2026-10-10
 ### Added
 - `@overturo/sdk/meetings` — `OverturoMeetings` (API token): `listMeetings`, `createMeeting`, `getMeeting`, `updateMeeting` (rename / reschedule), `cancelMeeting`, `listParticipants` (each person's decision per purpose). A meeting is the unit of record: window, platform identity, cancellation, participant rows. Tests run against the recorded corpus.

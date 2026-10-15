@@ -1,6 +1,6 @@
 {
   "name": "@overturo/sdk",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Overturo SDK — authorize, oversight, and decisions for backend integrators",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -36,6 +36,11 @@
       "types": "./dist/meetings.d.ts",
       "import": "./dist/meetings.mjs",
       "require": "./dist/meetings.cjs"
+    },
+    "./consent_records": {
+      "types": "./dist/consent_records.d.ts",
+      "import": "./dist/consent_records.mjs",
+      "require": "./dist/consent_records.cjs"
     }
   },
   "files": [
@@ -53,7 +58,7 @@
     "@types/node": "^22.10.0",
     "tsup": "^8.0.0",
     "typescript": "^5.4.0",
-    "vitest": "^4.0.18"
+    "vitest": "^4.1.11"
   },
   "engines": {
     "node": ">=20"

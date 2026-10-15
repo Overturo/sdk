@@ -81,6 +81,22 @@ export type {
   DiscoverFlowOptions,
 } from "./decisions/index.js"
 
+// Consent records subpackage — consents captured outside Overturo's surfaces (201)
+export { OverturoConsentRecords } from "./consent_records/index.js"
+export type {
+  AttestedDecision,
+  ConsentRecord,
+  ConsentRecordEnvelope,
+  ConsentRecordImport,
+  ConsentRecordImportEnvelope,
+  ConsentRecordPurposeOutcome,
+  ConsentRecordSubject,
+  ConsentStatusLookup,
+  CreateConsentRecordInput,
+  ImportConsentRecordsInput,
+  OverturoConsentRecordsOpts,
+} from "./consent_records/index.js"
+
 // Meetings subpackage — the organisation's side of meeting consent (200)
 export { OverturoMeetings } from "./meetings/index.js"
 export type {

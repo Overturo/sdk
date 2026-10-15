@@ -8,6 +8,7 @@ export default defineConfig({
     decisions: "src/decisions/index.ts",
     receipts: "src/receipts/index.ts",
     meetings: "src/meetings/index.ts",
+    consent_records: "src/consent_records/index.ts",
   },
   format: ["esm", "cjs"],
   dts: true,
