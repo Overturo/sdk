@@ -27,7 +27,7 @@ const baseClaims = () => ({
   action: "read",
   scope: "profile",
   context_hash: "0a0b0c0d0e0f00112233445566778899aabbccddeeff00112233445566778899",
-  chronicle_id: "audit_rec_test_xyz",
+  record_id: "audit_rec_test_xyz",
   single_use: true as const,
 })
 

@@ -43,7 +43,7 @@ describe("OverturoAuthorize#authorize", () => {
           receipt: "h.p.s",
           jti: "n1",
           exp: Math.floor(Date.now() / 1000) + 60,
-          chronicle_id: "audit_rec_test",
+          record_id: "audit_rec_test",
           oap_ver: "1.0",
         }),
         { status: 200, headers: { "Content-Type": "application/json" } }
@@ -73,7 +73,7 @@ describe("OverturoAuthorize#authorize", () => {
           receipt: "h.p.s",
           jti: "n1",
           exp: Math.floor(Date.now() / 1000) + 60,
-          chronicle_id: "audit_rec_test",
+          record_id: "audit_rec_test",
           oap_ver: "1.0",
         }),
         { status: 200, headers: { "Content-Type": "application/json" } }
@@ -266,5 +266,91 @@ describe("OverturoAuthorize#refreshToken", () => {
     const sent = body()
     expect(sent.context).toBeUndefined()
     expect(sent.jurisdiction).toBeUndefined()
+  })
+})
+
+/** The DPoP proof is signed before fetch is called; the fake clock must not move before then. */
+async function untilCalled(fn: { mock: { calls: unknown[] } }): Promise<void> {
+  while (fn.mock.calls.length === 0) await new Promise<void>((resolve) => setImmediate(resolve))
+}
+
+describe("OverturoAuthorize#waitForEscalation", () => {
+  it("GETs the settlement wait under the grant with DPoP and returns the recorded approval", async () => {
+    const { corpusBody } = await import("../support/corpus.js")
+    const approved = corpusBody<Record<string, unknown>>("Oap_EscalationSettlements_show", "approved")
+    const fakeFetch = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input)
+      expect(url).toBe("https://us.overturo.test/api/v1/grants/ath_test_xyz/escalations/esc_1/wait?hold=5")
+      expect(init?.method).toBe("GET")
+      const headers = init?.headers as Record<string, string>
+      expect(headers.Authorization).toBe("DPoP agent-token-v1")
+      expect(headers.DPoP).toBeDefined()
+      return new Response(JSON.stringify(approved), { status: 200, headers: { "Content-Type": "application/json" } })
+    }) as unknown as typeof fetch
+
+    const settlement = await makeClient(fakeFetch).waitForEscalation("esc_1", { holdSeconds: 5 })
+    expect(settlement.status).toBe("approved")
+    if (settlement.status === "approved" && "receipt" in settlement) {
+      expect(settlement.receipt).toBe("<TOKEN>")
+      expect(settlement.record_id).toBeDefined()
+    }
+  })
+
+  it("returns the recorded pending settlement with retry_after", async () => {
+    const { corpusBody } = await import("../support/corpus.js")
+    const pending = corpusBody<Record<string, unknown>>("Oap_EscalationSettlements_show")
+    const fakeFetch = vi.fn(async () => new Response(JSON.stringify(pending), { status: 200, headers: { "Content-Type": "application/json" } })) as unknown as typeof fetch
+    const settlement = await makeClient(fakeFetch).waitForEscalation("esc_1")
+    expect(settlement.status).toBe("pending")
+    if (settlement.status === "pending") expect(settlement.retry_after).toBeTypeOf("number")
+  })
+
+  it("budgets the request for the hold plus the client timeout, not the client timeout alone", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] })
+    try {
+      const { corpusBody } = await import("../support/corpus.js")
+      const pending = corpusBody<Record<string, unknown>>("Oap_EscalationSettlements_show")
+      let signal: AbortSignal | undefined
+      // The platform answers after 19 s of a 20 s hold; the client's own timeout is 2 s.
+      const fakeFetch = vi.fn(
+        (_input: RequestInfo | URL, init?: RequestInit) =>
+          new Promise<Response>((resolve, reject) => {
+            signal = init?.signal ?? undefined
+            signal?.addEventListener("abort", () => reject(new Error("aborted")))
+            setTimeout(() => resolve(new Response(JSON.stringify(pending), { status: 200 })), 19_000)
+          })
+      ) as unknown as typeof fetch
+      const wait = makeClient(fakeFetch).waitForEscalation("esc_1", { holdSeconds: 20 })
+      await untilCalled(fakeFetch)
+      await vi.advanceTimersByTimeAsync(19_000)
+      const settlement = await wait
+      expect(settlement.status).toBe("pending")
+      expect(signal?.aborted).toBe(false)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it("still aborts a wait the platform never answers, once the hold and the client timeout have both run out", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] })
+    try {
+      const fakeFetch = vi.fn(
+        (_input: RequestInfo | URL, init?: RequestInit) =>
+          new Promise<Response>((_resolve, reject) => {
+            init?.signal?.addEventListener("abort", () => reject(new Error("aborted")))
+          })
+      ) as unknown as typeof fetch
+      const wait = makeClient(fakeFetch).waitForEscalation("esc_1", { holdSeconds: 5 })
+      const outcome = wait.then(
+        () => "resolved",
+        (e: Error) => e.message
+      )
+      await untilCalled(fakeFetch)
+      await vi.advanceTimersByTimeAsync(6_999)
+      await vi.advanceTimersByTimeAsync(2)
+      expect(await outcome).toBe("aborted")
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })

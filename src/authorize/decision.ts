@@ -50,7 +50,7 @@ export interface OverturoDecision {
   escalation?: OverturoEscalation | null
   receipt?: OverturoReceipt | null
   decision_latency_ms?: number | null
-  chronicle_id?: string | null
+  record_id?: string | null
   // Passthrough — wire response carries iss, oap_ver, iat, exp, etc.
   [extra: string]: unknown
 }
@@ -168,6 +168,6 @@ export function parseDecision(payload: unknown): OverturoDecision {
     escalation,
     receipt: parseReceipt(obj),
     decision_latency_ms: (obj.decision_latency_ms as number | null) ?? null,
-    chronicle_id: (obj.chronicle_id as string | null) ?? null,
+    record_id: (obj.record_id as string | null) ?? null,
   }
 }

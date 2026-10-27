@@ -24,7 +24,7 @@ const PINNED_FIELDS = [
   "cascade_step",
   "failed_bound",
   "decision_latency_ms",
-  "chronicle_id",
+  "record_id",
 ] as const
 
 const BLOCK_PINNED = ["position", "block_slug", "decision", "latency_ms", "evaluator_class"] as const

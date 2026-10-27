@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0] - 2026-10-26
+### Changed — public names, before the first registry publish
+- The audit-record pointer is `record_id` everywhere: the receipt claim, `AuthorizeAllowResponse`, `AuthorizeEscalateResponse`, `OverturoDecision`, the audit-trail entry. `chronicle_id` is gone from the wire and the types; nothing is dual-emitted (the registries have never seen this package).
+- `OverturoOversight.create({applicationId})` replaces `touchpointId`; the attestation, escalation and revocation requests carry `application_id`.
+- `overturoRecordStream` / `OverturoRecordStreamOptions` replace `overturoChronicleStream` / `OverturoChronicleStreamOptions`.
+### Added
+- `OverturoAuthorize#waitForEscalation(escalationId, {holdSeconds?})` — the agent waits on an escalation its grant opened and collects the receipt on approval (`EscalationSettlement`); `AuthorizeEscalateResponse` carries `decision_url`, `wait_url`, `required_signers` and `iss`. The wait's request budget is the hold plus the client's `timeoutMs` (the ordinary timeout alone aborted every wait that outlived it on the first live walk).
+- `canonicalize` is exported: the RFC 8785 subset the platform hashes into a receipt's `context_hash`.
+- Reason codes `escalation_expired`, `escalation_cancelled`, `escalation_countered`, `receipt_expired` (platform) and the verifier-local `*_mismatch` / `receipt_replayed` (`@overturo/mcp-authorize`).
+- Vendored corpus: `Oap_Authorize_create` (allow and `.escalate`), `Oap_EscalationSettlements_show` (pending and `.approved`).
+
 ## [1.5.0] - 2026-10-15
 ### Added
 - `@overturo/sdk/consent_records` — `OverturoConsentRecords` (API token): `create` (capture and commit in one call, idempotent on your key), `commitCapture` (commit the capture token your own form received), `retrieve`, `import` (consents you already hold, up to 5000 rows per batch, with a dry run), `retrieveImport` and `status` (the per-purpose status for a subject, by email or your own identifier). Tests run against the recorded corpus.

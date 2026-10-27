@@ -2,7 +2,7 @@ import type { DpopKeyPair } from "./dpop.js"
 import { signDpopProof } from "./dpop.js"
 import { jurisdictionContext } from "./jurisdiction_context.js"
 import { OapError } from "../errors.js"
-import type { AuthorizeRequest, AuthorizeResponse, OapErrorEnvelope } from "./types.js"
+import type { AuthorizeRequest, AuthorizeResponse, EscalationSettlement, OapErrorEnvelope } from "./types.js"
 
 export interface OverturoAuthorizeOptions {
   /** Grant prefix_id (e.g. `ath_us_AbC123…`). */
@@ -49,6 +49,9 @@ export interface TokenInfo {
  * `verifyReceiptOffline` directly; agents only need this class to *get*
  * receipts.
  */
+/** The settlement wait's hold when the request names none. */
+const PLATFORM_DEFAULT_HOLD_SECONDS = 20
+
 export class OverturoAuthorize {
   private readonly grantId: string
   private agentToken: string
@@ -125,6 +128,25 @@ export class OverturoAuthorize {
     return info
   }
 
+  /**
+   * Wait on an escalation this grant opened. The platform
+   * holds for up to `holdSeconds` (default and ceiling 20) and answers the
+   * settlement; a `pending` answer carries `retry_after`. Same DPoP-bound
+   * credential as `authorize`; an escalation another grant opened is not found.
+   */
+  async waitForEscalation(escalationId: string, opts: { holdSeconds?: number } = {}): Promise<EscalationSettlement> {
+    const params: Record<string, string> = {}
+    if (opts.holdSeconds !== undefined) params.hold = String(opts.holdSeconds)
+    // The platform holds the request open for up to `hold` seconds (its own
+    // default when none is sent) before answering pending, so the request's
+    // budget is the hold plus the client's ordinary timeout — the ordinary
+    // timeout alone would abort every wait that outlives it.
+    const hold = Math.max(0, opts.holdSeconds ?? PLATFORM_DEFAULT_HOLD_SECONDS)
+    return (await this.signedGet(`/api/v1/grants/${this.grantId}/escalations/${escalationId}/wait`, params, {
+      timeoutMs: hold * 1000 + this.timeoutMs,
+    })) as EscalationSettlement
+  }
+
   /** Tokens may rotate; expose the current value for log/test inspection. */
   get currentToken(): string {
     return this.agentToken
@@ -152,8 +174,8 @@ export class OverturoAuthorize {
     return parseDecision(raw)
   }
 
-  /** Internal signed GET — used by {@link overturoChronicleStream}. */
-  async signedGet(path: string, params: Record<string, string>): Promise<unknown> {
+  /** Internal signed GET — used by {@link overturoRecordStream}. */
+  async signedGet(path: string, params: Record<string, string>, opts: { timeoutMs?: number } = {}): Promise<unknown> {
     const qs = new URLSearchParams(params).toString()
     const url = `${this.apiBaseUrl}${path}${qs ? `?${qs}` : ""}`
     const dpop = await signDpopProof(this.dpopKey, {
@@ -161,13 +183,17 @@ export class OverturoAuthorize {
       htu: url,
       accessToken: this.agentToken,
     })
-    const res = await this.request(url, {
-      method: "GET",
-      headers: {
-        Authorization: `DPoP ${this.agentToken}`,
-        DPoP: dpop,
+    const res = await this.request(
+      url,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `DPoP ${this.agentToken}`,
+          DPoP: dpop,
+        },
       },
-    })
+      opts.timeoutMs
+    )
     return this.parseResponse(res)
   }
 
@@ -208,9 +234,9 @@ export class OverturoAuthorize {
     return this.parseResponse(res)
   }
 
-  private async request(url: string, init: RequestInit): Promise<Response> {
+  private async request(url: string, init: RequestInit, timeoutMs: number = this.timeoutMs): Promise<Response> {
     const controller = new AbortController()
-    const timer = setTimeout(() => controller.abort(), this.timeoutMs)
+    const timer = setTimeout(() => controller.abort(), timeoutMs)
     try {
       return await this.fetchFn(url, { ...init, signal: controller.signal })
     } finally {

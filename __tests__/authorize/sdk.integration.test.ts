@@ -75,7 +75,7 @@ describe.skipIf(() => fixture === null)("OAP wire integration", () => {
     if (result.decision !== "allow") return
     expect(result.receipt).toMatch(/^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/)
     expect(result.jti).toBeTruthy()
-    expect(result.chronicle_id).toMatch(/^audit_rec_/)
+    expect(result.record_id).toMatch(/^audit_rec_/)
   })
 
   it("receipts verify offline against the live JWKS", async () => {

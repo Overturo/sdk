@@ -93,6 +93,8 @@ export interface ConsentRecordImport {
   error?: string | null
   started_at?: string | null
   finished_at?: string | null
+  /** The allowance the import is checked against before it runs (201 D14 / 205 D4). */
+  allowance?: { meter: string; remaining: number | null; state: string }
 }
 
 export interface ConsentRecordImportEnvelope {

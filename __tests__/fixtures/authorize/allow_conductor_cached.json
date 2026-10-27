@@ -4,7 +4,7 @@
   "request_id": "req_cached_002",
   "overturo_decision_schema_version": "1.0.0",
   "decision_latency_ms": 4.1,
-  "chronicle_id": "chr_def",
+  "record_id": "chr_def",
   "block_invocations": [
     {
       "position": 7,

@@ -39,25 +39,25 @@ describe("OverturoOversight", () => {
   describe("create() config validation", () => {
     it("throws OverturoConfigError when baseUrl missing", async () => {
       await expect(
-        OverturoOversight.create({ baseUrl: "", token: "t", touchpointId: "tp", heartbeatEnabled: false })
+        OverturoOversight.create({ baseUrl: "", token: "t", applicationId: "tp", heartbeatEnabled: false })
       ).rejects.toBeInstanceOf(OverturoConfigError)
     })
 
     it("throws OverturoConfigError when token missing", async () => {
       await expect(
-        OverturoOversight.create({ baseUrl: BASE, token: "", touchpointId: "tp", heartbeatEnabled: false })
+        OverturoOversight.create({ baseUrl: BASE, token: "", applicationId: "tp", heartbeatEnabled: false })
       ).rejects.toBeInstanceOf(OverturoConfigError)
     })
 
-    it("throws OverturoConfigError when touchpointId missing", async () => {
+    it("throws OverturoConfigError when applicationId missing", async () => {
       await expect(
-        OverturoOversight.create({ baseUrl: BASE, token: "t", touchpointId: "", heartbeatEnabled: false })
+        OverturoOversight.create({ baseUrl: BASE, token: "t", applicationId: "", heartbeatEnabled: false })
       ).rejects.toBeInstanceOf(OverturoConfigError)
     })
 
     it("throws OverturoConfigError on non-http baseUrl", async () => {
       await expect(
-        OverturoOversight.create({ baseUrl: "file:///etc", token: "t", touchpointId: "tp", heartbeatEnabled: false })
+        OverturoOversight.create({ baseUrl: "file:///etc", token: "t", applicationId: "tp", heartbeatEnabled: false })
       ).rejects.toBeInstanceOf(OverturoConfigError)
     })
   })
@@ -83,7 +83,7 @@ describe("OverturoOversight", () => {
       const client = await OverturoOversight.create({
         baseUrl: BASE,
         token: "tat_dev_xxx",
-        touchpointId: "tp_dev_yyy",
+        applicationId: "tp_dev_yyy",
         heartbeatEnabled: false,
       })
 
@@ -107,7 +107,7 @@ describe("OverturoOversight", () => {
       expect(body.action_class).toBe("mcp_tool_call")
       expect(body.decision).toBe("allow")
       expect(body.legal_basis).toBe("consent")
-      expect(body.touchpoint_id).toBe("tp_dev_yyy")
+      expect(body.application_id).toBe("tp_dev_yyy")
       expect(body.sequence_number).toBe(1)
     })
 
@@ -124,7 +124,7 @@ describe("OverturoOversight", () => {
       const client = await OverturoOversight.create({
         baseUrl: BASE,
         token: "tat_dev_xxx",
-        touchpointId: "tp_dev_yyy",
+        applicationId: "tp_dev_yyy",
         heartbeatEnabled: false,
         startSequence: 5,
         onSequenceUpdate: onUpdate,
@@ -149,7 +149,7 @@ describe("OverturoOversight", () => {
       const client = await OverturoOversight.create({
         baseUrl: BASE,
         token: "tat_dev_xxx",
-        touchpointId: "tp_dev_yyy",
+        applicationId: "tp_dev_yyy",
         heartbeatEnabled: false,
       })
 
@@ -171,7 +171,7 @@ describe("OverturoOversight", () => {
       const client = await OverturoOversight.create({
         baseUrl: BASE,
         token: "tat_dev_xxx",
-        touchpointId: "tp_dev_yyy",
+        applicationId: "tp_dev_yyy",
         heartbeatEnabled: false,
       })
 
@@ -193,7 +193,7 @@ describe("OverturoOversight", () => {
       const client = await OverturoOversight.create({
         baseUrl: BASE,
         token: "tat_dev_xxx",
-        touchpointId: "tp_dev_yyy",
+        applicationId: "tp_dev_yyy",
         heartbeatEnabled: false,
       })
 
@@ -233,7 +233,7 @@ describe("OverturoOversight", () => {
       const client = await OverturoOversight.create({
         baseUrl: BASE,
         token: "tat_dev_xxx",
-        touchpointId: "tp_dev_yyy",
+        applicationId: "tp_dev_yyy",
         heartbeatEnabled: false,
       })
 

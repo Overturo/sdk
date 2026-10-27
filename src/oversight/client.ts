@@ -32,7 +32,7 @@ export class OverturoOversight {
     private readonly sequence: SequenceManager,
     private readonly heartbeat: HeartbeatManager | null,
     private readonly logger: Logger,
-    private readonly touchpointId: string
+    private readonly applicationId: string
   ) {}
 
   static async create(config: OversightConfig): Promise<OverturoOversight> {
@@ -67,7 +67,7 @@ export class OverturoOversight {
       )
     }
 
-    return new OverturoOversight(http, discovery, tokens, sequence, heartbeat, logger, config.touchpointId)
+    return new OverturoOversight(http, discovery, tokens, sequence, heartbeat, logger, config.applicationId)
   }
 
   async attest(payload: AttestPayload): Promise<AttestResult> {
@@ -103,7 +103,7 @@ export class OverturoOversight {
 
     const escalationBody: Record<string, unknown> = {
       attestation_id: attestResult.attestationId,
-      touchpoint_id: this.touchpointId,
+      application_id: this.applicationId,
       context_class: payload.actionClass,
       proposed_action: payload.proposedAction,
     }
@@ -141,7 +141,7 @@ export class OverturoOversight {
 
     const body: Record<string, unknown> = {
       scope: payload.scope,
-      touchpoint_id: this.touchpointId,
+      application_id: this.applicationId,
       reason: payload.reason,
     }
     if (payload.agentClass) body["agent_class"] = payload.agentClass
@@ -175,7 +175,7 @@ export class OverturoOversight {
   private attestationBody(payload: AttestPayload, sequenceNumber: number): Record<string, unknown> {
     return {
       attestation_id: payload.attestationId ?? `att-sdk-${generateAttestationId()}`,
-      touchpoint_id: this.touchpointId,
+      application_id: this.applicationId,
       agent_class: payload.agentClass,
       action_class: payload.actionClass,
       decision: payload.decision,
@@ -237,7 +237,7 @@ export class OverturoOversight {
 function validateConfig(config: OversightConfig): void {
   if (!config.baseUrl) throw new OverturoConfigError("baseUrl is required")
   if (!config.token) throw new OverturoConfigError("token is required")
-  if (!config.touchpointId) throw new OverturoConfigError("touchpointId is required")
+  if (!config.applicationId) throw new OverturoConfigError("applicationId is required")
   if (!config.baseUrl.startsWith("http")) {
     throw new OverturoConfigError(`baseUrl must start with http(s)://; got ${config.baseUrl}`)
   }

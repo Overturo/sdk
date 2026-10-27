@@ -29,6 +29,8 @@ export {
 
 // Verify
 export { verifyReceiptOffline, rawEd25519ToJwk } from "./verify.js"
+// The canonical JSON the platform hashes into a receipt's context_hash (RFC 8785 subset).
+export { canonicalize } from "./canonicalize.js"
 
 // Authorize subpackage flat-export
 export { OverturoAuthorize } from "./authorize/index.js"
@@ -36,7 +38,7 @@ export type {
   DpopKeyPair,
   DpopPublicJwk,
   DpopProofParams,
-  OverturoChronicleStreamOptions,
+  OverturoRecordStreamOptions,
   OverturoDecisionAdapter,
   OverturoAuthorizeRequestPayload,
   // Receipt-verification types — public surface for counterparties
@@ -46,13 +48,15 @@ export type {
   OfflineVerifyResult,
   OapDenialCategory,
   OapReasonCode,
+  // The settlement wait's answer (OverturoAuthorize#waitForEscalation).
+  EscalationSettlement,
 } from "./authorize/index.js"
 export {
   accessTokenHash,
   jwkThumbprint,
   signDpopProof,
   peekReceipt,
-  overturoChronicleStream,
+  overturoRecordStream,
   base64urlToBytes,
   bytesToBase64url,
   decodeB64Url,

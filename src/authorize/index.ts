@@ -1,8 +1,8 @@
 // Authorize subpackage public surface.
 
 export type { OverturoAuthorizeRequestPayload, OverturoDecisionAdapter } from "./adapter.js"
-export type { OverturoChronicleStreamOptions } from "./chronicle-stream.js"
-export { overturoChronicleStream } from "./chronicle-stream.js"
+export type { OverturoRecordStreamOptions } from "./record-stream.js"
+export { overturoRecordStream } from "./record-stream.js"
 export { OverturoAuthorize } from "./client.js"
 export type { DpopKeyPair, DpopPublicJwk, DpopProofParams } from "./dpop.js"
 export { accessTokenHash, jwkThumbprint, signDpopProof } from "./dpop.js"

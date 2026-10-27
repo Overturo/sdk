@@ -36,7 +36,7 @@ export interface OversightConfig {
   token: string
 
   /** Application prefix-id (`tp_<region>_<base32>`). */
-  touchpointId: string
+  applicationId: string
 
   /** Optional async token provider. When omitted, SDK reads from `OVERTURO_ATTESTER_TOKEN` env on rotation. */
   tokenProvider?: () => string | Promise<string>

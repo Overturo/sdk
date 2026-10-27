@@ -105,7 +105,7 @@ export class OpaAdapter implements OverturoDecisionAdapter {
         failed_bound: null,
         escalation: null,
         receipt: null,
-        chronicle_id: null,
+        record_id: null,
       }
     }
     return {
@@ -121,7 +121,7 @@ export class OpaAdapter implements OverturoDecisionAdapter {
       escalation: null,
       receipt: null,
       decision_latency_ms: null,
-      chronicle_id: null,
+      record_id: null,
     }
   }
 }

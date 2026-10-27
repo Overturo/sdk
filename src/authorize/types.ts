@@ -44,21 +44,75 @@ export interface AuthorizeAllowResponse {
   /** Unix seconds; receipts are short-lived (60s by default). */
   exp: number
   /** Pointer for the audit chain entry recording this authorize call. */
-  chronicle_id: string
+  record_id: string
   oap_ver: OapVersion
 }
 
-/** Escalate decision — principal approval required. */
+/** Escalate decision — a person must decide. */
 export interface AuthorizeEscalateResponse {
   decision: "escalate"
   escalation_id: string
+  required_signers: string[]
   /** Threshold that triggered the escalation. */
   threshold: Record<string, unknown>
   approval_ttl_at: string
+  /** The decision page a signer opens to approve, decline or counter. */
+  decision_url: string
+  /** Settlement wait for this agent's credential (`OverturoAuthorize.waitForEscalation`). */
+  wait_url: string
+  /** Pointer for the audit chain entry recording this authorize call. */
+  record_id: string
+  iss: string
   oap_ver: OapVersion
 }
 
 export type AuthorizeResponse = AuthorizeAllowResponse | AuthorizeEscalateResponse
+
+/**
+ * What the settlement wait answers. `pending` carries
+ * `retry_after`; an approval carries the receipt while it is valid and
+ * `receipt_expired` after sixty seconds; a counter names the negotiation.
+ */
+export type EscalationSettlement =
+  | { status: "pending"; wait_again: true; retry_after: number; escalation_id: string; oap_ver: OapVersion }
+  | ({
+      status: "approved"
+      wait_again: false
+      escalation_id: string
+      decision_record_id: string | null
+      decided_by: string | null
+      receipt_jti: string
+      iat: number
+      iss: string
+    } & Omit<AuthorizeAllowResponse, "jti">)
+  | {
+      status: "approved"
+      wait_again: false
+      escalation_id: string
+      decision_record_id: string | null
+      decided_by: string | null
+      reason_code: "receipt_expired"
+      oap_ver: OapVersion
+    }
+  | {
+      status: "denied" | "expired" | "cancelled"
+      wait_again: false
+      escalation_id: string
+      decision_record_id: string | null
+      decided_by: string | null
+      reason_code: "escalation_denied" | "escalation_expired" | "escalation_cancelled"
+      oap_ver: OapVersion
+    }
+  | {
+      status: "countered"
+      wait_again: false
+      escalation_id: string
+      decision_record_id: string | null
+      decided_by: string | null
+      reason_code: "escalation_countered"
+      negotiation_id?: string
+      oap_ver: OapVersion
+    }
 
 /** Decoded receipt claims. Matches the wire shape. */
 export interface ReceiptClaims {
@@ -77,7 +131,7 @@ export interface ReceiptClaims {
   value?: string
   currency?: string
   context_hash: string
-  chronicle_id: string
+  record_id: string
   single_use: true
   [k: string]: unknown
 }
@@ -142,6 +196,18 @@ export type OapReasonCode =
   | "escalation_denied"
   | "dispatch_error"
   | "chronicle_stream_prefix_invalid"
+  // Settlement outcomes the platform answers.
+  | "escalation_expired"
+  | "escalation_cancelled"
+  | "escalation_countered"
+  | "receipt_expired"
+  // Verifier-local codes (@overturo/mcp-authorize); the platform never emits them.
+  | "action_mismatch"
+  | "scope_mismatch"
+  | "value_mismatch"
+  | "currency_mismatch"
+  | "context_mismatch"
+  | "receipt_replayed"
 
 /**
  * OAP denial category. Cascade-relevant errors carry

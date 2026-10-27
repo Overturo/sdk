@@ -1,11 +1,11 @@
 /**
- * Chronicle stream async iterable.
+ * Record stream async iterable (the audit-trail entries of a grant).
  *
  * Polls GET /api/v1/oap/chronicles, yielding raw chronicle entries.
  * Manages cursor advancement and exponential idle back-off.
  *
  * Usage:
- *   for await (const event of overturoChronicleStream(client, {eventTypePrefix: "conductor."})) {
+ *   for await (const event of overturoRecordStream(client, {eventTypePrefix: "conductor."})) {
  *     handle(event)
  *   }
  */
@@ -14,7 +14,7 @@ import type { OverturoAuthorize } from "./client.js"
 
 const ALLOWED_PREFIXES = new Set(["conductor.", "oap."])
 
-export interface OverturoChronicleStreamOptions {
+export interface OverturoRecordStreamOptions {
   eventTypePrefix: "conductor." | "oap."
   since?: string
   pollIntervalMs?: number
@@ -31,9 +31,9 @@ interface ChroniclesResponse {
 const DEFAULT_POLL_MS = 5_000
 const DEFAULT_BACKOFF_MAX_MS = 30_000
 
-export async function* overturoChronicleStream(
+export async function* overturoRecordStream(
   client: OverturoAuthorize,
-  opts: OverturoChronicleStreamOptions
+  opts: OverturoRecordStreamOptions
 ): AsyncIterable<Record<string, unknown>> {
   if (!ALLOWED_PREFIXES.has(opts.eventTypePrefix)) {
     throw new Error(

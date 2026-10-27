@@ -4,7 +4,7 @@
   "request_id": "req_esc_008",
   "overturo_decision_schema_version": "1.0.0",
   "decision_latency_ms": 20.0,
-  "chronicle_id": "chr_esc_a",
+  "record_id": "chr_esc_a",
   "escalation": {
     "escalation_id": "esc_value",
     "required_signers": [

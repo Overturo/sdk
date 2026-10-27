@@ -1,6 +1,6 @@
 {
   "name": "@overturo/sdk",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "Overturo SDK — authorize, oversight, and decisions for backend integrators",
   "type": "module",
   "main": "./dist/index.cjs",
